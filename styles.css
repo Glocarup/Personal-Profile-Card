@@ -1,4 +1,17 @@
-/* ===== RESET Y CONFIGURACIÓN BASE ===== */
+/* ===== 1. FUENTES Y VARIABLES ===== */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Montserrat:wght@300;400;600&display=swap');
+
+:root {
+    --warm-peach: #f2a679;
+    --warm-coral: #e6735c;
+    --warm-yellow: #f2c879;
+    --cool-teal: #79b4b3;
+    --cool-cream: #f2ece4;
+    --text-main: #2d2d2d; 
+    --card-bg: rgba(255, 255, 255, 0.98);
+}
+
+/* ===== 2. RESET Y FONDO ARTÍSTICO ===== */
 * {
     margin: 0;
     padding: 0;
@@ -6,320 +19,226 @@
 }
 
 body {
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Montserrat', sans-serif;
+    background: 
+        radial-gradient(circle at 20% 20%, var(--warm-yellow) 0%, transparent 40%),
+        radial-gradient(circle at 80% 10%, var(--warm-coral) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, var(--cool-cream) 0%, transparent 100%),
+        radial-gradient(circle at 10% 90%, var(--cool-teal) 0%, transparent 50%),
+        var(--warm-peach);
+    background-attachment: fixed;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
-    color: #333;
+    padding: 60px 20px;
+    overflow-x: hidden;
 }
 
-/* ===== CONTENEDOR PRINCIPAL ===== */
+/* Textura de grano sutil */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 1;
+}
+
+::selection {
+    background: var(--cool-teal);
+    color: white;
+}
+
+/* ===== 3. TARJETA ORGÁNICA (FORMA DE PIEDRA/HOJA) ===== */
 .container {
     width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
+    max-width: 460px;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* ===== TARJETA DE PERFIL ===== */
 .profile-card {
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-radius: 24px;
-    padding: 32px;
-    box-shadow: 
-        0 20px 40px rgba(0, 0, 0, 0.1),
-        0 8px 16px rgba(0, 0, 0, 0.1);
-    margin-bottom: 20px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    
+    /* Forma asimétrica orgánica */
+    border-radius: 40px 100px 50px 110px / 60px 50px 100px 40px;
+    
+    padding: 60px 45px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.1);
+    border: 1px solid rgba(255,255,255,0.7);
+    width: 100%;
+    margin-bottom: 25px;
+    position: relative;
+    
+    /* Animación de balanceo muy lenta */
+    animation: floatingCard 10s ease-in-out infinite alternate;
 }
 
-.profile-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-        0 25px 50px rgba(0, 0, 0, 0.15),
-        0 12px 24px rgba(0, 0, 0, 0.12);
-}
-
-/* ===== SECCIÓN DE INFORMACIÓN PERSONAL ===== */
+/* ===== 4. ENCABEZADO Y FOTO BLOB ===== */
 .profile-header {
     text-align: center;
-    margin-bottom: 32px;
-}
-
-/* FOTO DE PERFIL - MODIFICAR ESTILOS AQUÍ SI NECESITAS */
-.profile-image-container {
-    margin-bottom: 24px;
+    margin-bottom: 35px;
 }
 
 .profile-image {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+    width: 125px;
+    height: 125px;
     object-fit: cover;
-    border: 4px solid #fff;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
+    
+    /* Forma de gota/blob */
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    
+    border: 4px solid white;
+    outline: 2px solid var(--cool-teal);
+    outline-offset: 4px;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    margin-bottom: 25px;
 }
 
-.profile-image:hover {
-    transform: scale(1.05);
+.profile-card:hover .profile-image {
+    outline-offset: 8px;
+    outline-color: var(--warm-coral);
+    transform: rotate(-8deg) scale(1.08);
+    border-radius: 40% 60% 70% 30% / 40% 70% 30% 60%;
 }
 
-/* INFORMACIÓN PERSONAL - MODIFICAR ESTILOS AQUÍ SI NECESITAS */
 .profile-name {
-    font-size: 28px;
-    font-weight: 700;
-    color: #1976d2;
-    margin-bottom: 8px;
-    letter-spacing: -0.5px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 46px;
+    color: var(--text-main);
+    line-height: 1.1;
+    margin-bottom: 4px;
 }
 
 .profile-lastname {
-    font-size: 24px;
-    font-weight: 500;
-    color: #424242;
-    margin-bottom: 16px;
-}
-
-.profile-details {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--warm-coral);
+    margin-bottom: 20px;
 }
 
 .profile-details p {
-    font-size: 16px;
-    color: #666;
-    font-weight: 400;
-}
-
-/* ===== SECCIONES GENERALES ===== */
-.section-title {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #777;
+    margin-bottom: 8px;
+    font-weight: 600;
     display: flex;
     align-items: center;
-    gap: 12px;
+    justify-content: center;
+    gap: 8px;
+}
+
+.profile-details p .material-icons {
+    font-size: 16px;
+    color: var(--cool-teal);
+}
+
+/* ===== 5. SECCIONES Y TÍTULOS ===== */
+.section-title, .section-title-center {
+    font-family: 'DM Serif Display', serif;
     font-size: 20px;
-    font-weight: 600;
-    color: #1976d2;
-    margin-bottom: 20px;
-    padding-bottom: 8px;
-    border-bottom: 2px solid #e3f2fd;
+    color: var(--text-main);
+    margin: 30px 0 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 2px solid var(--cool-cream);
+    padding-bottom: 6px;
 }
 
-.section-title .material-icons {
-    font-size: 24px;
-    color: #1976d2;
+.section-title-center { justify-content: center; }
+.section-title { justify-content: flex-start; }
+
+.section-title .material-icons, 
+.section-title-center .material-icons {
+    color: var(--cool-teal);
+    font-size: 18px;
 }
 
-/* ===== SECCIÓN DE HABILIDADES ===== */
-.skills-section {
-    margin-bottom: 32px;
-}
-
-/* HABILIDADES - MODIFICAR ESTILOS AQUÍ SI NECESITAS */
+/* ===== 6. HABILIDADES (CENTRADAS) ===== */
 .skills-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
 }
 
 .skill-item {
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    padding: 16px;
-    border-radius: 12px;
-    text-align: center;
+    background: #f8f9fa;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 12px;
+    border: 1px solid #eee;
+    color: #444;
+    font-weight: 500;
     transition: all 0.3s ease;
-    border: 1px solid #e3f2fd;
 }
 
 .skill-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 16px rgba(25, 118, 210, 0.2);
-    background: linear-gradient(135deg, #bbdefb 0%, #90caf9 100%);
+    transform: translateY(-5px);
+    background: white;
+    border-color: var(--cool-teal);
+    color: var(--cool-teal);
+    box-shadow: 0 10px 20px rgba(121, 180, 179, 0.1);
 }
 
-.skill-name {
-    font-size: 16px;
-    font-weight: 500;
-    color: #1976d2;
-}
-
-/* ===== SECCIONES DE FAVORITOS ===== */
-.favorites-section {
-    margin-bottom: 32px;
-}
-
-/* PELÍCULAS Y DISCOS FAVORITOS - MODIFICAR ESTILOS AQUÍ SI NECESITAS */
+/* ===== 7. FAVORITOS (IZQUIERDA) ===== */
 .favorites-list {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    text-align: left;
 }
 
 .favorite-item {
-    background: #f5f5f5;
-    padding: 12px 16px;
+    font-size: 14px;
+    color: #333;
+    padding: 8px 12px;
     border-radius: 8px;
-    font-size: 16px;
-    color: #424242;
-    font-weight: 400;
-    transition: all 0.3s ease;
-    border-left: 4px solid #1976d2;
+    border-bottom: 1px solid rgba(0,0,0,0.03);
+    transition: all 0.4s ease;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.5px;
 }
 
 .favorite-item:hover {
-    background: #e3f2fd;
-    transform: translateX(4px);
+    transform: translateX(12px);
+    color: var(--warm-coral);
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
-/* ===== FOOTER ===== */
+/* ===== 8. ANIMACIONES Y FOOTER ===== */
+@keyframes floatingCard {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    50% { transform: translate(3px, -8px) rotate(0.5deg); }
+    100% { transform: translate(-3px, 5px) rotate(-0.5deg); }
+}
+
 .footer {
     text-align: center;
-    color: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
-    font-weight: 300;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-main);
+    opacity: 0.5;
+    margin-top: 15px;
 }
 
-/* ===== EFECTOS DE ANIMACIÓN ===== */
 .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 0.8s ease forwards;
+    animation: fadeIn 1.5s ease-out forwards;
 }
 
-@keyframes fadeInUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
-
-/* ===== RESPONSIVE DESIGN ===== */
-/* Para tablets */
-@media (max-width: 768px) {
-    .profile-card {
-        padding: 24px;
-        margin: 10px;
-    }
-    
-    .profile-name {
-        font-size: 24px;
-    }
-    
-    .profile-lastname {
-        font-size: 20px;
-    }
-    
-    .skills-container {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 12px;
-    }
-    
-    .skill-item {
-        padding: 12px;
-    }
-}
-
-/* Para móviles */
-@media (max-width: 480px) {
-    body {
-        padding: 10px;
-    }
-    
-    .profile-card {
-        padding: 20px;
-        border-radius: 16px;
-    }
-    
-    .profile-image {
-        width: 100px;
-        height: 100px;
-    }
-    
-    .profile-name {
-        font-size: 22px;
-    }
-    
-    .profile-lastname {
-        font-size: 18px;
-    }
-    
-    .section-title {
-        font-size: 18px;
-    }
-    
-    .skills-container {
-        grid-template-columns: 1fr;
-        gap: 10px;
-    }
-    
-    .skill-item {
-        padding: 10px;
-    }
-    
-    .favorite-item {
-        font-size: 14px;
-        padding: 10px 12px;
-    }
-}
-
-/* Para pantallas muy pequeñas */
-@media (max-width: 320px) {
-    .profile-card {
-        padding: 16px;
-    }
-    
-    .profile-image {
-        width: 80px;
-        height: 80px;
-    }
-    
-    .profile-name {
-        font-size: 20px;
-    }
-    
-    .profile-lastname {
-        font-size: 16px;
-    }
-}
-
-/* ===== MEJORAS DE ACCESIBILIDAD ===== */
-@media (prefers-reduced-motion: reduce) {
-    * {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* ===== ESTILOS PARA MODO OSCURO (OPCIONAL) ===== */
-@media (prefers-color-scheme: dark) {
-    .profile-card {
-        background: rgba(30, 30, 30, 0.95);
-        color: #fff;
-    }
-    
-    .profile-name {
-        color: #64b5f6;
-    }
-    
-    .profile-lastname {
-        color: #e0e0e0;
-    }
-    
-    .profile-details p {
-        color: #b0b0b0;
-    }
-    
-    .favorite-item {
-        background: #424242;
-        color: #e0e0e0;
-    }
-    
-    .favorite-item:hover {
-        background: #616161;
-    }
-} 
